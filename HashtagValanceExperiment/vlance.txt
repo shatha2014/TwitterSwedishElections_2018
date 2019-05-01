@@ -1,0 +1,59 @@
+
+#Create db with all hashtags maped to parties
+db.stats_sverige_v2.aggregate([
+    {$unwind: "$value.hashtags" },
+    {$match: { party : { $in: [ "moderaterna","socialdemokraterna","miljopartiet","centerpartiet","liberalerna","kristdemokraterna","vansterpartiet","sverigedemokraterna" ] }} },
+    { $group: {
+        _id:"$party", hashtaglist: { $push: '$value.hashtags' } }} ,
+    { $out : "party_hashtags"}
+]);
+
+#Db with total hashtags for each party
+db.party_hashtags.aggregate([
+    {$unwind: "$hashtaglist" },
+    {$group: {
+        _id: {id: "$_id"},
+        total_tags: {$sum : 1}
+    }},
+    { $out : "total_party_hashtags" }
+]);
+
+#db with count for each hashtag for every party
+db.party_hashtags.aggregate([
+    {$unwind: "$hashtaglist" },
+    {$group: {
+        _id: {id: "$_id", hashtag: "$hashtaglist"},
+        hsum: {$sum : 1}
+    }},
+    {$group: {
+        _id: "$_id.id",
+        term_tf: {$push:  { hashtag: "$_id.hashtag", hsum: "$hsum" }}
+    }},
+    { $out : "party_hashtag_count" }
+]);
+
+
+#Get total hashtags for all parties.
+db.total_party_hashtags.aggregate( [ { $group: { _id:{}, total:{ $sum: "$total_tags" } }},{ $out : "all_hashtag_count" } ] )
+
+#Get total amount of times each hashtag has been used.
+db.party_hashtags.aggregate([
+    {$unwind: "$hashtaglist" },
+    {$group: {
+        _id: "$hashtaglist",
+        count: {$sum : 1}
+    }},
+    { $out : "total_count_hashtags" }
+]);
+
+
+#sort output of valance
+db.centerpartiet_valance_collection.find().sort({valance:-1 })
+
+
+#Get the count for all hashtags without any party afiliation.
+db.stats_sverige_v2.aggregate([
+    {$unwind: "$value.hashtags" },
+    { $group: {_id:"$value.hashtags", total_tags: {$sum : 1} }} ,
+    { $out : "count_for_all_hashtags"}
+]);

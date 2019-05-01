@@ -1,0 +1,4 @@
+#Get the amount of users in the DB
+db.stats_sverige_v2.find().count()
+#The amount of users for each party
+db.stats_sverige_v2.find({"party":"vansterpartiet"}).count()

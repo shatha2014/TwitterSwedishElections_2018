@@ -1,0 +1,91 @@
+
+#Get All tweets.
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val"] }},
+            {"entities.user_mentions.screen_name":{$in:["miljopartiet","nya_moderaterna","Centerpartiet", "liberalerna","kdriks","vansterpartiet","Feministerna","sdriks","alliansswe" ,"socialdemokrat"] }}
+        ]
+        }).count()
+
+
+#Estimaite miljöpartiet
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val"] }},
+            {"entities.user_mentions.screen_name":{$in:["miljopartiet"] }}
+        ]
+        }).count()
+
+
+#Estimate moderaterna
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val"] }},
+            {"entities.user_mentions.screen_name":{$in:["nya_moderaterna"] }}
+        ]
+        }).count()
+
+
+#Estimaite centerpartiet
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val"] }},
+            {"entities.user_mentions.screen_name":{$in:["Centerpartiet"] }}
+        ]
+        }).count()
+
+#Estimate liberalerna
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val","Val2018"] }},
+            {"entities.user_mentions.screen_name":{$in:["liberalerna"] }}
+        ]
+        }).count()
+
+#Estimate kristdemokraterna
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val","Val2018"] }},
+            {"entities.user_mentions.screen_name":{$in:["kdriks"] }}
+        ]
+        }).count()
+
+#Estimate vänsterpartiet
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val","Val2018"] }},
+            {"entities.user_mentions.screen_name":{$in:["vansterpartiet"] }}
+        ]
+        }).count()
+
+#Estimaite Fi
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val","Val2018"] }},
+            {"entities.user_mentions.screen_name":{$in:["Feministerna"] }}
+        ]
+        }).count()
+
+#Estimate SD
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val","Val2018"] }},
+            {"entities.user_mentions.screen_name":{$in:["sdriks"] }}
+        ]
+        }).count()
+
+#Estimate Aliansen
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val","Val2018"] }},
+            {"entities.user_mentions.screen_name":{$in:["alliansswe"] }}
+        ]
+        }).count()
+
+#Estimate Socialdemokarterna
+db.sverige.find({
+        $and:[
+            {"entities.hashtags.text":{$in:["svtpol", "svpol", "val2018","val18","dinröst","tv4val","Val2018"] }},
+            {"entities.user_mentions.screen_name":{$in:["socialdemokrat"] }}
+        ]
+        }).count()

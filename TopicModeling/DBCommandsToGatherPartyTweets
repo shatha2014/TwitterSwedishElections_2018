@@ -1,0 +1,52 @@
+
+#Creates a collection party_users wich contain all parties and all users that have been identifed to a specifc party.
+db.stats_sverige_v2.aggregate([
+    {$match: { party : { $in: [ "moderaterna","socialdemokraterna","miljopartiet","centerpartiet","liberalerna","kristdemokraterna","vansterpartiet","sverigedemokraterna" ] }} },
+    { $group: {
+        _id:"$party", userList: { $push: '$_id' } }} ,
+    { $out : "party_users"}
+]);
+
+#Get the list of users
+list = db.party_users.distinct("userList", {_id : "sverigedemokraterna"})
+
+#Get all tweets from the users of a specifc party
+db.sverige.aggregate([
+    {$match: { "user.screen_name" : { $in:list  }} },
+    { $group: {
+        _id:"sverigedemokraterna", textList: { $push: '$stagged_text' } }} ,
+    { $out : "sverigedemokraterna_tweets"}
+]);
+
+#get csv file with the tweets from the DB
+mongoexport -d test -c "mp_tweets" -fields textList --csv -o mp_tweets.csv
+
+os.system('''mongoexport -d fintapp -c portfolio --csv --fields userid,budget --query '{"budget":{$exists:True}}' -o fulbudg.csv''')
+
+
+#Then run the creaLinesfor File.
+
+#Then do topic modeling with mallet.
+
+list = db.moderaterna_tweets.distinct("testList", {_id : "moderaterna"}).length
+
+
+#Mallet commands
+mallet import-file --input moderaterna.csv --output moderaterna.mallet --remove-stopwords TRUE --stoplist-file stopword.txt --keep-sequence TRUE
+mallet import-file --input socialdemokraterna.csv --output socialdemokraterna.mallet --remove-stopwords TRUE --stoplist-file stopword.txt --keep-sequence TRUE
+mallet import-file --input miljopartiet.csv --output miljopartiet.mallet --remove-stopwords TRUE --stoplist-file stopword.txt --keep-sequence TRUE
+mallet import-file --input centerpartiet.csv --output centerpartiet.mallet --remove-stopwords TRUE --stoplist-file stopword.txt --keep-sequence TRUE
+mallet import-file --input liberalerna.csv --output liberalerna.mallet --remove-stopwords TRUE --stoplist-file stopword.txt --keep-sequence TRUE
+mallet import-file --input kristdemokraterna.csv --output kristdemokraterna.mallet --remove-stopwords TRUE --stoplist-file stopword.txt --keep-sequence TRUE
+mallet import-file --input vansterpartiet.csv --output vansterpartiet.mallet --remove-stopwords TRUE --stoplist-file stopword.txt --keep-sequence TRUE
+mallet import-file --input sverigedemokraterna.csv --output sverigedemokraterna.mallet --remove-stopwords TRUE --stoplist-file stopword.txt --keep-sequence TRUE
+
+#Run topic modeling
+mallet train-topics --input moderaterna.mallet --num-topics 10 --num-threads 4 --num-iterations 5000 --output-topic-keys moderatena_keys.txt --output-doc-topics moderaterna-topic-composition.txt
+mallet train-topics --input socialdemokraterna.mallet --num-topics 10 --num-threads 4 --num-iterations 5000 --output-topic-keys socialdemokraterna.txt --output-doc-topics socialdemokraterna-topic-composition.txt
+mallet train-topics --input miljopartiet.mallet --num-topics 10 --num-threads 4 --num-iterations 5000 --output-topic-keys miljopartiet.txt --output-doc-topics miljopartiet-topic-composition.txt
+mallet train-topics --input centerpartiet.mallet --num-topics 10 --num-threads 4 --num-iterations 5000 --output-topic-keys centerpartiet.txt --output-doc-topics centerpartiet-topic-composition.txt
+mallet train-topics --input liberalerna.mallet --num-topics 10 --num-threads 4 --num-iterations 5000 --output-topic-keys liberalerna.txt --output-doc-topics liberalerna-topic-composition.txt
+mallet train-topics --input kristdemokraterna.mallet --num-topics 10 --num-threads 4 --num-iterations 5000 --output-topic-keys kristdemokraterna.txt --output-doc-topics kristdemokraterna-topic-composition.txt
+mallet train-topics --input vansterpartiet.mallet --num-topics 10 --num-threads 4 --num-iterations 5000 --output-topic-keys vansterpartiet.txt --output-doc-topics vansterpartiet-topic-composition.txt
+mallet train-topics --input sverigedemokraterna.mallet --num-topics 10 --num-threads 4 --num-iterations 5000 --output-topic-keys sverigedemokraterna.txt --output-doc-topics sverigedemokraterna-topic-composition.txt

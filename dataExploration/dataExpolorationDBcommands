@@ -1,0 +1,18 @@
+Number of tweets:
+db.sverige.find().count()
+Resukts; 1669284
+
+
+#Number of unique tweets
+db.sverige.aggregate([
+    { $group: { _id: null, names:{$addToSet:"$stagged_text"} } },
+    { $project: { count: { $size: "$names" } } }
+])
+
+Results: 569326
+
+
+#Number of users:
+db.stats_sverige.find().count()
+
+Results:101115
