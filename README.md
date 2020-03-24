@@ -1,1 +1,10 @@
 # TwitterSwedishElections2018
+Collaboration in this project with: Andreas Dahm
+
+Implementation of Master Thesis: Analysis of Twitter data from the 2018 Swedish elections
+
+Link to the thesis:
+http://www.diva-portal.org/smash/record.jsf?pid=diva2%3A1322764&dswid=-757
+
+Description about the project:
+The increased usage of social media among the population has meant that more people share their thoughts about different topics on the Internet. The increased social media usage has made it interesting to investigate if data from social media can be used to get an understanding for why different events oc- cur. Elections is one such event where social media data could be used to get a better understanding of the final election results. The problem that is studied in this thesis is if Twitter data collected up to the Swedish elections in 2018 could be a useful source of information for predicting the final election results. The purpose of the thesis is to provide more knowledge about how real-world events are related to Twitter data.A comparative study was conducted where experiments carried out by Dokoohaki et al. [1] were repeated on a data set consisting of Tweets from the Swedish 2018 elections. The experiments carried out were based on the- ory from the areas of topic modeling and link predictions. Word embeddings were used in new experiments with the intent to form clusters around topics related to the elections. The experiments provided an estimation of the size of different topics on Twitter in relation to the elections.The results are that the clusters formed from the collected Twitter data provide some insight about the final election outcomes. With the clusters it is possible to identify which three parties would receive the largest amount of support in the elections.The conclusions of the study are that Twitter data can provide some expla- nations for why certain events happen. Due to the nature of Twitter data being noisy it is not possible to draw strong conclusion or make predictions on the exact voting outcomes for each party in the elections.
